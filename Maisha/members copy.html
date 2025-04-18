@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maisha Savings Dashboard</title>
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 95%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: #075e54;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        /* Summary Cards */
+        .summary-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .summary-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            flex: 1;
+            min-width: 250px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .summary-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .summary-card h2 {
+            color: #075e54;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #25d366;
+            padding-bottom: 8px;
+        }
+        
+        .summary-card .value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .summary-card .date {
+            margin-top: 10px;
+            color: #777;
+            font-size: 0.9rem;
+        }
+        
+        /* Member Table */
+        .members-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .members-section h2 {
+            color: #075e54;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #25d366;
+            padding-bottom: 8px;
+        }
+        
+        .members-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        
+        .members-table th,
+        .members-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .members-table th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+            color: #075e54;
+        }
+        
+        .members-table tr:hover {
+            background-color: #f9f9f9;
+        }
+        
+        /* Deposit Form */
+        .deposit-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .deposit-section h2 {
+            color: #075e54;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #25d366;
+            padding-bottom: 8px;
+        }
+        
+        .deposit-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #444;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #075e54;
+        }
+        
+        .submit-btn {
+            background-color: #075e54;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            grid-column: 1 / -1;
+            width: 200px;
+            justify-self: end;
+        }
+        
+        .submit-btn:hover {
+            background-color: #064942;
+        }
+        
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .summary-container {
+                flex-direction: column;
+            }
+            
+            .summary-card {
+                width: 100%;
+            }
+            
+            .deposit-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .members-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <header>
+            <h1>Maisha Savings Dashboard</h1>
+            <p>Tracking member savings and deposits</p>
+        </header>
+        
+        <!-- Summary Cards Section -->
+        <div class="summary-container">
+            <div class="summary-card">
+                <h2>Today's Total Savings</h2>
+                <div class="value">KSh 24,500</div>
+                <div class="date">March 17, 2025</div>
+            </div>
+            
+            <div class="summary-card">
+                <h2>Cumulative Savings</h2>
+                <div class="value">KSh 1,245,800</div>
+                <div class="date">Updated: March 17, 2025</div>
+            </div>
+            
+            <div class="summary-card">
+                <h2>Total Members</h2>
+                <div class="value">42</div>
+                <div class="date">Active members as of today</div>
+            </div>
+        </div>
+        
+        <!-- Members Table Section -->
+        <div class="members-section">
+            <h2>Member Details</h2>
+            <div class="table-container">
+                <table class="members-table">
+                    <thead>
+                        <tr>
+                            <th>Full Name</th>
+                            <th>ID Number</th>
+                            <th>Phone Number</th>
+                            <th>Total Savings (KSh)</th>
+                            <th>Last Deposit Date</th>
+                            <th>Last Deposit Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>John Mwangi Kamau</td>
+                            <td>23456789</td>
+                            <td>0712345678</td>
+                            <td>78,500</td>
+                            <td>March 17, 2025</td>
+                            <td>2,500</td>
+                        </tr>
+                        <tr>
+                            <td>Jane Wanjiku Njoroge</td>
+                            <td>34567890</td>
+                            <td>0723456789</td>
+                            <td>124,300</td>
+                            <td>March 17, 2025</td>
+                            <td>5,000</td>
+                        </tr>
+                        <tr>
+                            <td>Michael Omondi Otieno</td>
+                            <td>45678901</td>
+                            <td>0734567890</td>
+                            <td>56,200</td>
+                            <td>March 15, 2025</td>
+                            <td>3,000</td>
+                        </tr>
+                        <tr>
+                            <td>Sarah Akinyi Onyango</td>
+                            <td>56789012</td>
+                            <td>0745678901</td>
+                            <td>92,800</td>
+                            <td>March 16, 2025</td>
+                            <td>4,500</td>
+                        </tr>
+                        <tr>
+                            <td>David Kipchirchir Ruto</td>
+                            <td>67890123</td>
+                            <td>0756789012</td>
+                            <td>45,000</td>
+                            <td>March 17, 2025</td>
+                            <td>3,500</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Deposit Form Section -->
+        <div class="deposit-section">
+            <h2>Record New Deposit</h2>
+            <form class="deposit-form">
+                <div class="form-group">
+                    <label for="member-id">Select Member:</label>
+                    <select id="member-id" required>
+                        <option value="">-- Select Member --</option>
+                        <option value="1">John Mwangi Kamau</option>
+                        <option value="2">Jane Wanjiku Njoroge</option>
+                        <option value="3">Michael Omondi Otieno</option>
+                        <option value="4">Sarah Akinyi Onyango</option>
+                        <option value="5">David Kipchirchir Ruto</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="amount">Amount (KSh):</label>
+                    <input type="number" id="amount" required placeholder="Enter amount">
+                </div>
+                
+                <div class="form-group">
+                    <label for="date">Deposit Date:</label>
+                    <input type="date" id="date" required value="2025-03-17">
+                </div>
+                
+                <div class="form-group">
+                    <label for="payment-method">Payment Method:</label>
+                    <select id="payment-method" required>
+                        <option value="">-- Select Method --</option>
+                        <option value="mpesa">M-Pesa</option>
+                        <option value="bank">Bank Transfer</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reference">Reference/Transaction ID:</label>
+                    <input type="text" id="reference" placeholder="Optional">
+                </div>
+                
+                <button type="submit" class="submit-btn">Record Deposit</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
